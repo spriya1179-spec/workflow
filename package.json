@@ -4,17 +4,23 @@
   "description": "Lost & Found Portal Workflow Diagram - Deployed on Render",
   "main": "index.html",
   "scripts": {
-    "start": "serve -s -l 3000",
+    "start": "npx serve -s -l $PORT",
     "build": "echo 'No build process needed for static site'",
-    "dev": "serve -s -l 3000"
+    "dev": "npx serve -s -l 3000"
   },
-  "keywords": ["workflow", "lost-found", "portal", "diagram"],
+  "keywords": [
+    "workflow",
+    "lost-found",
+    "portal",
+    "diagram",
+    "render"
+  ],
   "author": "SmartCampus Team",
   "license": "MIT",
   "dependencies": {
     "serve": "^14.2.0"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   }
 }
