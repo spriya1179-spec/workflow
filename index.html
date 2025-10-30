@@ -291,6 +291,20 @@
             font-size: 0.9rem;
         }
         
+        .deployment-info {
+            background: #e8f5e8;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            border-left: 4px solid #2ecc71;
+        }
+        
+        .deployment-info h3 {
+            color: #27ae60;
+            margin-bottom: 10px;
+        }
+        
         @media (max-width: 768px) {
             .workflow-row {
                 flex-direction: column;
@@ -331,6 +345,11 @@
         </header>
         
         <div class="workflow-container">
+            <div class="deployment-info">
+                <h3>🚀 Successfully Deployed on Render!</h3>
+                <p>This static site is hosted on Render's free tier</p>
+            </div>
+            
             <h2 class="workflow-title">System Overview</h2>
             
             <div class="workflow-diagram">
@@ -522,6 +541,7 @@
         
         <footer>
             <p>SmartCampus Lost & Found Portal Workflow Diagram | Designed for 10 Users with IDs: 25CS001 to 25CS010</p>
+            <p>✅ Successfully deployed on Render</p>
         </footer>
     </div>
 </body>
