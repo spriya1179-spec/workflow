@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost & Found Portal Workflow</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        
+        header {
+            background: #4361ee;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .workflow-container {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .workflow-title {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .workflow-diagram {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .workflow-row {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+        
+        .workflow-step {
+            width: 200px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            margin: 0 15px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .workflow-step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .step-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #4361ee;
+        }
+        
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .step-description {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.4;
+        }
+        
+        .connector {
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            background: #4361ee;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .connector-right {
+            right: -40px;
+        }
+        
+        .connector-left {
+            left: -40px;
+        }
+        
+        .connector-down {
+            width: 3px;
+            height: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            top: auto;
+            bottom: -40px;
+        }
+        
+        .user-flow {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 40px;
+        }
+        
+        .user-column {
+            flex: 1;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin: 0 15px;
+        }
+        
+        .user-header {
+            text-align: center;
+            padding: 15px;
+            background: #4361ee;
+            color: white;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .user-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .user-step {
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            position: relative;
+            padding-left: 50px;
+        }
+        
+        .step-number {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            background: #4361ee;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        .match-section {
+            text-align: center;
+            margin: 40px 0;
+            padding: 25px;
+            background: #f0f7ff;
+            border-radius: 10px;
+            width: 80%;
+        }
+        
+        .match-title {
+            font-size: 1.5rem;
+            color: #4361ee;
+            margin-bottom: 15px;
+        }
+        
+        .match-process {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+        
+        .match-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 20px;
+        }
+        
+        .match-icon {
+            font-size: 2rem;
+            color: #4361ee;
+            margin-bottom: 10px;
+        }
+        
+        .match-arrow {
+            font-size: 2rem;
+            color: #666;
+        }
+        
+        .data-flow {
+            width: 100%;
+            margin-top: 40px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .data-title {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .data-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .data-box {
+            flex: 1;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            margin: 0 10px;
+            text-align: center;
+        }
+        
+        .data-header {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #4361ee;
+            font-size: 1.1rem;
+        }
+        
+        .data-list {
+            text-align: left;
+            list-style-type: none;
+        }
+        
+        .data-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .data-list li:last-child {
+            border-bottom: none;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .workflow-row {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .workflow-step {
+                margin: 10px 0;
+            }
+            
+            .connector {
+                display: none;
+            }
+            
+            .user-flow {
+                flex-direction: column;
+            }
+            
+            .user-column {
+                margin: 10px 0;
+            }
+            
+            .data-container {
+                flex-direction: column;
+            }
+            
+            .data-box {
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Lost & Found Portal Workflow</h1>
+            <div class="subtitle">Complete process from item loss to recovery</div>
+        </header>
+        
+        <div class="workflow-container">
+            <h2 class="workflow-title">System Overview</h2>
+            
+            <div class="workflow-diagram">
+                <div class="workflow-row">
+                    <div class="workflow-step">
+                        <div class="step-icon">👤</div>
+                        <div class="step-title">User Authentication</div>
+                        <div class="step-description">Login with unique User ID and default password</div>
+                        <div class="connector connector-right"></div>
+                    </div>
+                    
+                    <div class="workflow-step">
+                        <div class="step-icon">📝</div>
+                        <div class="step-title">Item Reporting</div>
+                        <div class="step-description">Users report lost or found items with details</div>
+                        <div class="connector connector-right"></div>
+                    </div>
+                    
+                    <div class="workflow-step">
+                        <div class="step-icon">🔍</div>
+                        <div class="step-title">Matching System</div>
+                        <div class="step-description">Automatic matching of lost and found items</div>
+                        <div class="connector connector-down"></div>
+                    </div>
+                </div>
+                
+                <div class="workflow-row">
+                    <div class="workflow-step">
+                        <div class="step-icon">💬</div>
+                        <div class="step-title">Chat System</div>
+                        <div class="step-description">Secure communication between users</div>
+                        <div class="connector connector-right"></div>
+                    </div>
+                    
+                    <div class="workflow-step">
+                        <div class="step-icon">✅</div>
+                        <div class="step-title">Item Return</div>
+                        <div class="step-description">Coordination and confirmation of return</div>
+                        <div class="connector connector-right"></div>
+                    </div>
+                    
+                    <div class="workflow-step">
+                        <div class="step-icon">📊</div>
+                        <div class="step-title">Case Resolution</div>
+                        <div class="step-description">Record keeping and analytics</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="user-flow">
+                <div class="user-column">
+                    <div class="user-header">Lost Item User</div>
+                    <div class="user-steps">
+                        <div class="user-step">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Login to Portal</div>
+                            <div class="step-description">Use unique User ID and password</div>
+                        </div>
+                        
+                        <div class="user-step">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Report Lost Item</div>
+                            <div class="step-description">Provide item details, location, and date</div>
+                        </div>
+                        
+                        <div class="user-step">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Search for Matches</div>
+                            <div class="step-description">Browse found items or wait for notifications</div>
+                        </div>
+                        
+                        <div class="user-step">
+                            <div class="step-number">4</div>
+                            <div class="step-title">Initiate Chat</div>
+                            <div class="step-description">Contact finder if match is found</div>
+                        </div>
+                        
+                        <div class="user-step">
+                            <div class="step-number">5</div>
+                            <div class="step-title">Coordinate Return</div>
+                            <div class="step-description">Arrange pickup and verify item</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="user-column">
+                    <div class="user-header">Found Item User</div>
+                    <div class="user-steps">
+                        <div class="user-step">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Login to Portal</div>
+                            <div class="step-description">Use unique User ID and password</div>
+                        </div>
+                        
+                        <div class="user-step">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Report Found Item</div>
+                            <div class="step-description">Provide item details, location, and date</div>
+                        </div>
+                        
+                        <div class="user-step">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Wait for Match</div>
+                            <div class="step-description">System automatically matches with lost items</div>
+                        </div>
+                        
+                        <div class="user-step">
+                            <div class="step-number">4</div>
+                            <div class="step-title">Respond to Chat</div>
+                            <div class="step-description">Communicate with item owner</div>
+                        </div>
+                        
+                        <div class="user-step">
+                            <div class="step-number">5</div>
+                            <div class="step-title">Return Item</div>
+                            <div class="step-description">Arrange handover and confirm return</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="match-section">
+                <h3 class="match-title">Matching Process</h3>
+                <div class="match-process">
+                    <div class="match-step">
+                        <div class="match-icon">📱</div>
+                        <div class="step-description">User Reports Item</div>
+                    </div>
+                    
+                    <div class="match-arrow">→</div>
+                    
+                    <div class="match-step">
+                        <div class="match-icon">🔄</div>
+                        <div class="step-description">System Compares Attributes</div>
+                    </div>
+                    
+                    <div class="match-arrow">→</div>
+                    
+                    <div class="match-step">
+                        <div class="match-icon">🔔</div>
+                        <div class="step-description">Notification Sent</div>
+                    </div>
+                    
+                    <div class="match-arrow">→</div>
+                    
+                    <div class="match-step">
+                        <div class="match-icon">💬</div>
+                        <div class="step-description">Chat Initiated</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="data-flow">
+                <h3 class="data-title">Data Management</h3>
+                <div class="data-container">
+                    <div class="data-box">
+                        <div class="data-header">User Data</div>
+                        <ul class="data-list">
+                            <li>User ID (25CS001-25CS010)</li>
+                            <li>Encrypted Password</li>
+                            <li>Profile Information</li>
+                            <li>Login History</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="data-box">
+                        <div class="data-header">Item Data</div>
+                        <ul class="data-list">
+                            <li>Item Category</li>
+                            <li>Description</li>
+                            <li>Location</li>
+                            <li>Date/Time</li>
+                            <li>Status (Lost/Found)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="data-box">
+                        <div class="data-header">Interaction Data</div>
+                        <ul class="data-list">
+                            <li>Chat Messages</li>
+                            <li>Match Records</li>
+                            <li>Return Confirmations</li>
+                            <li>User Feedback</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>SmartCampus Lost & Found Portal Workflow Diagram | Designed for 10 Users with IDs: 25CS001 to 25CS010</p>
+        </footer>
+    </div>
+</body>
+</html>
